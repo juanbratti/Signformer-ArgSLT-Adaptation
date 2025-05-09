@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 import torch
 
-torch.backends.cudnn.deterministic = True
+# Add these lines after the imports
+torch.backends.cuda.matmul.allow_tf32 = True
+torch.backends.cudnn.allow_tf32 = True
 
 import argparse
 import numpy as np

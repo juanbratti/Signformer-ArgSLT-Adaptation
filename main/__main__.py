@@ -19,8 +19,8 @@ def main():
     ap.add_argument("--gpu_id", type=str, default="0", help="gpu to run your job on")
     args = ap.parse_args()
 
-    os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_id
-
+    os.environ["HIP_VISIBLE_DEVICES"] = args.gpu_id
+    os.environ["HSA_OVERRIDE_GFX_VERSION"] = "10.3.0"
     if args.mode == "train":
         train(cfg_file=args.config_path)
     elif args.mode == "test":
