@@ -3,7 +3,7 @@ import math
 import random
 import torch
 import numpy as np
-
+from main.device import device
 
 class Batch:
     """Object for holding a batch of data with mask during training.
@@ -117,13 +117,13 @@ class Batch:
 
         :return:
         """
-        self.sgn = self.sgn.cuda()
-        self.sgn_mask = self.sgn_mask.cuda()
+        self.sgn = self.sgn.to(device)
+        self.sgn_mask = self.sgn_mask.to(device)
 
         if self.txt_input is not None:
-            self.txt = self.txt.cuda()
-            self.txt_mask = self.txt_mask.cuda()
-            self.txt_input = self.txt_input.cuda()
+            self.txt = self.txt.to(device)
+            self.txt_mask = self.txt_mask.to(device)
+            self.txt_input = self.txt_input.to(device)
 
     def sort_by_sgn_lengths(self):
         """

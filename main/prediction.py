@@ -8,6 +8,7 @@ import numpy as np
 import pickle as pickle
 import time
 import torch.nn as nn
+from main.device import device
 
 from typing import List
 from torchtext.data import Dataset
@@ -344,7 +345,7 @@ def test(
     model.load_state_dict(model_checkpoint["model_state"])
 
     if use_cuda:
-        model.cuda()
+        model.to(device)
 
     # Data Augmentation Parameters
     frame_subsampling_ratio = cfg["data"].get("frame_subsampling_ratio", None)
@@ -373,13 +374,13 @@ def test(
             blank=model.gls_vocab.stoi[SIL_TOKEN], zero_infinity=True
         )
         if use_cuda:
-            recognition_loss_function.cuda()
+            recognition_loss_function.to(device)
     if do_translation:
         translation_loss_function = XentLoss(
             pad_index=txt_vocab.stoi[PAD_TOKEN], smoothing=0.0
         )
         if use_cuda:
-            translation_loss_function.cuda()
+            translation_loss_function.to(device)
 
     # NOTE (Cihan): Currently Hardcoded to be 0 for TensorFlow decoding
     assert model.gls_vocab.stoi[SIL_TOKEN] == 0

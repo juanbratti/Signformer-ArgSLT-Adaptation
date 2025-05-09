@@ -34,6 +34,8 @@ from torch import Tensor
 from torch.utils.tensorboard import SummaryWriter
 from torchtext.data import Dataset
 from typing import List, Dict
+from main.device import device
+
 
 # pylint: disable=too-many-instance-attributes
 class TrainManager:
@@ -164,11 +166,11 @@ class TrainManager:
 
         self.use_cuda = train_config["use_cuda"]
         if self.use_cuda:
-            self.model.cuda()
+            self.model.to(device)
             if self.do_translation:
-                self.translation_loss_function.cuda()
+                self.translation_loss_function.to(device)
             if self.do_recognition:
-                self.recognition_loss_function.cuda()
+                self.recognition_loss_function.to(device)
 
         # initialize training statistics
         self.steps = 0
@@ -338,7 +340,7 @@ class TrainManager:
 
         # move parameters to cuda
         if self.use_cuda:
-            self.model.cuda()
+            self.model.to(device)
 
     def train_and_validate(self,  train_data: Dataset, valid_data: Dataset) -> None:
         """

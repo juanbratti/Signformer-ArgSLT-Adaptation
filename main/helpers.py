@@ -3,6 +3,8 @@
 Collection of helper functions
 """
 
+from main.device import device
+
 import copy
 import glob
 import os
@@ -209,7 +211,7 @@ def load_checkpoint(path: str, use_cuda: bool = True) -> dict:
     :return: checkpoint (dict)
     """
     assert os.path.isfile(path), "Checkpoint %s not found" % path
-    checkpoint = torch.load(path, map_location="cuda" if use_cuda else "cpu")
+    checkpoint = torch.load(path, map_location=device if use_cuda else "cpu")
     return checkpoint
 
 
